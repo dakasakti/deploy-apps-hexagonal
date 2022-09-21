@@ -12,7 +12,7 @@ import (
 type UserService interface {
 	GetUsers(ctx context.Context) ([]models.User, error)
 	GetUser(ctx context.Context, user_id uint) (*models.User, error)
-	CreateUser(ctx context.Context, req models.UserRequest) (*string, error)
+	CreateUser(ctx context.Context, req models.UserRequest) (interface{}, error)
 	UpdateUser(ctx context.Context, user_id uint, req models.UserUpdateRequest) error
 	DeleteUser(ctx context.Context, user_id uint) error
 	Login(ctx context.Context, req models.UserLogin) (*string, error)
@@ -50,20 +50,19 @@ func (us *userService) GetUser(ctx context.Context, user_id uint) (*models.User,
 	return result, nil
 }
 
-func (us *userService) CreateUser(ctx context.Context, req models.UserRequest) (*string, error) {
+func (us *userService) CreateUser(ctx context.Context, req models.UserRequest) (interface{}, error) {
 	data := models.User{
 		Fullname: req.Fullname,
 		Username: req.Username,
 		Password: req.Password,
 	}
 
-	inserted_id, err := us.ur.Create(ctx, data)
+	result, err := us.ur.Create(ctx, data)
 	if err != nil {
 		return nil, err
 	}
 
-	result := inserted_id.(string)
-	return &result, nil
+	return result, nil
 }
 
 func (us *userService) UpdateUser(ctx context.Context, user_id uint, req models.UserUpdateRequest) error {

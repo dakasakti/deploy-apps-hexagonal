@@ -79,7 +79,9 @@ func (uc *userController) CreateUser(c echo.Context) error {
 
 	return c.JSON(201, echo.Map{
 		"message": "berhasil membuat data user",
-		"data":    result,
+		"data": echo.Map{
+			"inserted_id": result,
+		},
 	})
 }
 
