@@ -1,0 +1,1 @@
+web: deploy-apps-hexagonal
