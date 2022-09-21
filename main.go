@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/dakasakti/deploy-apps-hexagonal/config"
 	"github.com/dakasakti/deploy-apps-hexagonal/internal/factory"
 	"github.com/dakasakti/deploy-apps-hexagonal/internal/http"
@@ -16,5 +18,5 @@ func main() {
 	middlewares.LoggerMiddleware(e)
 
 	http.NewHttp(e, f)
-	e.Logger.Fatal(e.Start(":8000"))
+	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.GetConfig().Port)))
 }
